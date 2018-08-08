@@ -30,8 +30,20 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
+		String[] acro = new String[phrase.length()];
+		for(String element : acro) {
+			String[] splits = element.split("[a-z]+");
+			String acronym = "";
+			
+			for(String split : splits) {
+				acronym = acronym + split;
+			}
+			
+			acronym = acronym.replaceAll("\\s","");
+			
+		} 
 		// TODO Write an implementation for this method declaration
-		return null;
+		return acronym(phrase);
 	}
 
 	/**
@@ -85,6 +97,7 @@ public class EvaluationService {
 
 		public boolean isEquilateral() {
 			// TODO Write an implementation for this method declaration
+			
 			return false;
 		}
 
