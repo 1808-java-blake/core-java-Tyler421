@@ -324,7 +324,6 @@ public class EvaluationService {
 			String[] array1 = new String[this.sortedList.size()];
 			int[] array2 = new int[this.sortedList.size()];
 
-			
 			for (int i = 0; i < this.sortedList.size(); i++) {
 				array1[i] = String.valueOf(this.sortedList.get(i));
 				array2[i] = Integer.valueOf(array1[i]);
@@ -349,20 +348,19 @@ public class EvaluationService {
 
 			return -1;
 		}
-	
 
-	public BinarySearch(List<T> sortedList) {
+		public BinarySearch(List<T> sortedList) {
 			super();
 			this.sortedList = sortedList;
 		}
 
-	public List<T> getSortedList() {
-		return sortedList;
-	}
+		public List<T> getSortedList() {
+			return sortedList;
+		}
 
-	public void setSortedList(List<T> sortedList) {
-		this.sortedList = sortedList;
-	}
+		public void setSortedList(List<T> sortedList) {
+			this.sortedList = sortedList;
+		}
 
 	}
 
@@ -384,8 +382,17 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String toPigLatin(String string) {
-		// TODO Write an implementation for this method declaration
+
 		return null;
+
+//		String[] strArr = string.split(" ");
+//		String newStr = new String();
+//
+//		for (int i = 0; i < strArr.length; i++) {
+//			newStr += strArr[i].replaceAll("([^aeiou]*)([aeiou]\\w+)", "$2$1ay") + " ";
+//		}
+//
+//		return newStr.trim();
 	}
 
 	/**
@@ -404,8 +411,35 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isArmstrongNumber(int input) {
-		// TODO Write an implementation for this method declaration
-		return false;
+
+		// Calling order function
+		int n = order(input);
+		int temp = input, sum = 0;
+		while (temp != 0) {
+			int r = temp % 10;
+			sum = sum + power(r, n);
+			temp = temp / 10;
+		}
+
+		// If satisfies Armstrong condition
+		return (sum == input);
+	}
+
+	int power(int x, long y) {
+		if (y == 0)
+			return 1;
+		if (y % 2 == 0)
+			return power(x, y / 2) * power(x, y / 2);
+		return x * power(x, y / 2) * power(x, y / 2);
+	}
+
+	int order(int x) {
+		int n = 0;
+		while (x != 0) {
+			n++;
+			x = x / 10;
+		}
+		return n;
 	}
 
 	/**
@@ -419,8 +453,17 @@ public class EvaluationService {
 	 * @return
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		List<Long> factors = new ArrayList<Long>();
+		long i = 2;
+		while (i <= l) {
+			if (l % i == 0) {
+				l = l / i;
+				factors.add(i);
+			} else {
+				i++;
+			}
+		}
+		return factors;
 	}
 
 	/**
@@ -458,8 +501,20 @@ public class EvaluationService {
 		}
 
 		public String rotate(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			int shiftKey = 5;
+			String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+			string = string.toLowerCase();
+			String plainText = "";
+			for (int i = 0; i < string.length(); i++) {
+				int charPosition = ALPHABET.indexOf(string.charAt(i));
+				int keyVal = (charPosition - shiftKey) % 26;
+				if (keyVal < 0) {
+					keyVal = ALPHABET.length() + keyVal;
+				}
+				char replaceVal = ALPHABET.charAt(keyVal);
+				plainText += replaceVal;
+			}
+			return plainText;
 		}
 
 	}
@@ -477,8 +532,24 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int calculateNthPrime(int i) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		int candidate, count;
+		for (candidate = 2, count = 0; count < i; ++candidate) {
+			if (isPrime(candidate)) {
+				++count;
+			}
+		}
+
+		return candidate - 1;
+	}
+
+	private static boolean isPrime(int n) {
+		for (int i = 2; i < n; ++i) {
+			if (n % i == 0) {
+
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -506,6 +577,9 @@ public class EvaluationService {
 	 *
 	 */
 	static class AtbashCipher {
+		private static final int GROUP_SIZE = 5;
+	    private static final String PLAIN = "abcdefghijklmnopqrstuvwxyz"; 
+	    private static final String CIPHER = "zyxwvutsrqponmlkjihgfedcba";
 
 		/**
 		 * Question 13
@@ -514,8 +588,14 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String encode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String encoded = stripInvalidCharacters(string).toLowerCase();
+			String cyphered = "";
+
+			for (char c : encoded.toCharArray()) {
+				cyphered += applyCipher(c);
+			}
+
+			return splitIntoFiveLetterWords(cyphered);
 		}
 
 		/**
@@ -525,9 +605,44 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String decode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			String encoded = stripInvalidCharacters(string).toLowerCase();
+			String deciphered = "";
+
+			for (char c : encoded.toCharArray()) {
+				deciphered += applyCipher(c);
+			}
+
+			return deciphered;
 		}
+
+		private static String stripInvalidCharacters(String input) {
+			String filteredValue = "";
+
+			for (char c : input.toCharArray()) {
+				if (Character.isLetterOrDigit(c)) {
+					filteredValue += c;
+				}
+			}
+
+			return filteredValue;
+		}
+
+		private static char applyCipher(char input) {
+			int idx = PLAIN.indexOf(input);
+
+			return idx >= 0 ? CIPHER.toCharArray()[idx] : input;
+		}
+
+		private static String splitIntoFiveLetterWords(String value) {
+			List<String> words = new ArrayList<>();
+
+			for (int i = 0; i < value.length(); i += GROUP_SIZE) {
+				words.add(i + GROUP_SIZE <= value.length() ? value.substring(i, i + GROUP_SIZE) : value.substring(i));
+			}
+
+			return String.join(" ", words);
+		}
+
 	}
 
 	/**
@@ -553,8 +668,35 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isValidIsbn(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		if (string == null) {
+			return false;
+		}
+
+		// remove any hyphens
+		string = string.replaceAll("-", "");
+
+		// must be a 10 digit ISBN
+		if (string.length() != 10) {
+			return false;
+		}
+
+		try {
+			int tot = 0;
+			for (int i = 0; i < 9; i++) {
+				int digit = Integer.parseInt(string.substring(i, i + 1));
+				tot += ((10 - i) * digit);
+			}
+
+			String checksum = Integer.toString((11 - (tot % 11)) % 11);
+			if ("10".equals(checksum)) {
+				checksum = "X";
+			}
+
+			return checksum.equals(string.substring(9));
+		} catch (NumberFormatException nfe) {
+			// to catch invalid ISBNs that have non-numeric characters in them
+			return false;
+		}
 	}
 
 	/**
@@ -571,8 +713,30 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isPangram(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+
+		boolean[] mark = new boolean[26];
+
+		int index = 0;
+
+		for (int i = 0; i < string.length(); i++) {
+
+			if ('A' <= string.charAt(i) && string.charAt(i) <= 'Z')
+
+				index = string.charAt(i) - 'A';
+
+			else if ('a' <= string.charAt(i) && string.charAt(i) <= 'z')
+
+				index = string.charAt(i) - 'a';
+
+			mark[index] = true;
+		}
+
+		for (int i = 0; i <= 25; i++)
+			if (mark[i] == false)
+				return (false);
+
+		return (true);
+
 	}
 
 	/**
@@ -584,17 +748,16 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
-	     //In case,time not included
-        if(given instanceof LocalDate) {
-            LocalDateTime time = LocalDateTime.of((LocalDate) given, LocalTime.MIN);
-            return time.plus(Duration.ofSeconds(1000000000l));
-        }
-        //if time is included
-        LocalDateTime time = LocalDateTime.from(given);
-        
-        return time.plus(Duration.ofSeconds(1000000000l));
-}
-	
+		// In case,time not included
+		if (given instanceof LocalDate) {
+			LocalDateTime time = LocalDateTime.of((LocalDate) given, LocalTime.MIN);
+			return time.plus(Duration.ofSeconds(1000000000l));
+		}
+		// if time is included
+		LocalDateTime time = LocalDateTime.from(given);
+
+		return time.plus(Duration.ofSeconds(1000000000l));
+	}
 
 	/**
 	 * 18. Given a number, find the sum of all the unique multiples of particular
@@ -610,8 +773,16 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		int sum = 0;
+		for (int j = 1; j < i; j++) {
+			for (int number : set) {
+				if (j % number == 0) {
+					sum += j;
+					break;
+				}
+			}
+		}
+		return sum;
 	}
 
 	/**
@@ -651,20 +822,18 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isLuhnValid(String string) {
-        int length = 0, sum = 0;
-        int[] map = {
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-            0, 2, 4, 6, 8, 1, 3, 5, 7, 9
-        };
-        for (int i = string.length() - 1; i >= 0; i--) {
-            char c = string.charAt(i);
-            if (c == ' ') continue;
-            if (c < '0' || c > '9') return false;
-            sum += map[10 * (length++ % 2) + (c - '0')];
-        }
-        return length > 1 && sum % 10 == 0;
-    }
-	
+		int length = 0, sum = 0;
+		int[] map = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 2, 4, 6, 8, 1, 3, 5, 7, 9 };
+		for (int i = string.length() - 1; i >= 0; i--) {
+			char c = string.charAt(i);
+			if (c == ' ')
+				continue;
+			if (c < '0' || c > '9')
+				return false;
+			sum += map[10 * (length++ % 2) + (c - '0')];
+		}
+		return length > 1 && sum % 10 == 0;
+	}
 
 	/**
 	 * 20. Parse and evaluate simple math word problems returning the answer as an
