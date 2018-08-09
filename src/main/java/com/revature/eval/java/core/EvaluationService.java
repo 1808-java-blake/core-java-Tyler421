@@ -30,20 +30,9 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		String[] acro = new String[phrase.length()];
-		for(String element : acro) {
-			String[] splits = element.split("[a-z]+");
-			String acronym = "";
-			
-			for(String split : splits) {
-				acronym = acronym + split;
-			}
-			
-			acronym = acronym.replaceAll("\\s","");
-			
-		} 
-		// TODO Write an implementation for this method declaration
-		return acronym(phrase);
+		
+	    String result = phrase.replaceAll("\\B.| |-|[1-9]|," , "").toUpperCase();
+		return result;
 	}
 
 	/**
@@ -96,18 +85,39 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
+			double a = getSideOne();
+			double b = getSideTwo();
+			double c = getSideThree();
+			
+			if(a == b && b == c && c == a) {
+				return true;
+				
+			}
 			
 			return false;
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
+			double a = getSideOne();
+			double b = getSideTwo();
+			double c = getSideThree();
+			
+			if(a == b || b==c || c==a) {
+				return true;
+			}
+			
 			return false;
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
+			double a = getSideOne();
+			double b = getSideTwo();
+			double c = getSideThree();
+			
+			if(a != b && b!=c && c!=a) {
+				return true;
+			}
+			
 			return false;
 		}
 
