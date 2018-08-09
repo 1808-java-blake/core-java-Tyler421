@@ -15,7 +15,7 @@ public class EvaluationService {
 	 */
 	public String reverse(String string) {
 		char[] reversed = new char[string.length()];
-		for (int i = reversed.length - 1, j=0; i >= 0; i--, j++) {
+		for (int i = reversed.length - 1, j = 0; i >= 0; i--, j++) {
 			reversed[j] = string.charAt(i);
 		}
 		return new String(reversed);
@@ -30,8 +30,8 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		
-	    String result = phrase.replaceAll("\\B.| |-|[1-9]|," , "").toUpperCase();
+
+		String result = phrase.replaceAll("\\B.| |-|[1-9]|,", "").toUpperCase();
 		return result;
 	}
 
@@ -88,12 +88,12 @@ public class EvaluationService {
 			double a = getSideOne();
 			double b = getSideTwo();
 			double c = getSideThree();
-			
-			if(a == b && b == c && c == a) {
+
+			if (a == b && b == c && c == a) {
 				return true;
-				
+
 			}
-			
+
 			return false;
 		}
 
@@ -101,11 +101,11 @@ public class EvaluationService {
 			double a = getSideOne();
 			double b = getSideTwo();
 			double c = getSideThree();
-			
-			if(a == b || b==c || c==a) {
+
+			if (a == b || b == c || c == a) {
 				return true;
 			}
-			
+
 			return false;
 		}
 
@@ -113,11 +113,11 @@ public class EvaluationService {
 			double a = getSideOne();
 			double b = getSideTwo();
 			double c = getSideThree();
-			
-			if(a != b && b!=c && c!=a) {
+
+			if (a != b && b != c && c != a) {
 				return true;
 			}
-			
+
 			return false;
 		}
 
@@ -139,8 +139,47 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		String[] scrable = string.split("");
+
+		int counter = 0;
+
+		for (int i = 0; i < scrable.length; i++) {
+
+			if (scrable[i].equals("A") || scrable[i].equals("E") || scrable[i].equals("I") || scrable[i].equals("O")
+					|| scrable[i].equals("U") || scrable[i].equals("L") || scrable[i].equals("N")
+					|| scrable[i].equals("R") || scrable[i].equals("S") || scrable[i].equals("T")
+					|| scrable[i].equals("a") || scrable[i].equals("e") || scrable[i].equals("i")
+					|| scrable[i].equals("o") || scrable[i].equals("u") || scrable[i].equals("l")
+					|| scrable[i].equals("n") || scrable[i].equals("r") || scrable[i].equals("s")
+					|| scrable[i].equals("t")) {
+				counter += 1;
+			}
+
+			if (scrable[i].equals("D") || scrable[i].equals("G") || scrable[i].equals("d") || scrable[i].equals("g")) {
+				counter += 2;
+			}
+			if (scrable[i].equals("B") || scrable[i].equals("C") || scrable[i].equals("M") || scrable[i].equals("P")
+					|| scrable[i].equals("b") || scrable[i].equals("c") || scrable[i].equals("m")
+					|| scrable[i].equals("p")) {
+				counter += 3;
+			}
+			if (scrable[i].equals("F") || scrable[i].equals("H") || scrable[i].equals("V") || scrable[i].equals("W")
+					|| scrable[i].equals("Y") || scrable[i].equals("f") || scrable[i].equals("h") || scrable[i].equals("v") || scrable[i].equals("w")
+					|| scrable[i].equals("y")) {
+				counter += 4;
+			}
+			if (scrable[i].equals("K")  | scrable[i].equals("k")) {
+				counter += 5;
+			}
+			if (scrable[i].equals("J") || scrable[i].equals("X") || scrable[i].equals("j") || scrable[i].equals("x")) {
+				counter += 8;
+			}
+			if (scrable[i].equals("Q") || scrable[i].equals("Z") || scrable[i].equals("q") || scrable[i].equals("z")) {
+				counter += 10;
+			}
+
+		}
+		return counter;
 	}
 
 	/**
