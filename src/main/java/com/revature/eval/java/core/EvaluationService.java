@@ -1,6 +1,8 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -164,11 +166,11 @@ public class EvaluationService {
 				counter += 3;
 			}
 			if (scrable[i].equals("F") || scrable[i].equals("H") || scrable[i].equals("V") || scrable[i].equals("W")
-					|| scrable[i].equals("Y") || scrable[i].equals("f") || scrable[i].equals("h") || scrable[i].equals("v") || scrable[i].equals("w")
-					|| scrable[i].equals("y")) {
+					|| scrable[i].equals("Y") || scrable[i].equals("f") || scrable[i].equals("h")
+					|| scrable[i].equals("v") || scrable[i].equals("w") || scrable[i].equals("y")) {
 				counter += 4;
 			}
-			if (scrable[i].equals("K")  | scrable[i].equals("k")) {
+			if (scrable[i].equals("K") | scrable[i].equals("k")) {
 				counter += 5;
 			}
 			if (scrable[i].equals("J") || scrable[i].equals("X") || scrable[i].equals("j") || scrable[i].equals("x")) {
@@ -214,8 +216,37 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		String newNumber = "";
+		ArrayList<Integer> phoneNumber = new ArrayList<Integer>();
+
+		for (int i = 0; i < string.length(); i++) {
+			try {
+				phoneNumber.add(Integer.parseInt(String.valueOf(string.charAt(i))));
+			} catch (NumberFormatException e ) {
+				continue;
+			}
+		}
+
+		int firstEntry = phoneNumber.get(0);
+
+		if (firstEntry == 1) {
+			phoneNumber.remove(0);
+
+		}
+
+		for (int i : phoneNumber) {
+			newNumber += String.valueOf(i);
+		}
+		if(newNumber.length() == 10)
+			return newNumber;
+		if(newNumber.contains("@ || ! || # || $ || [a-z] || [A-Z] "))
+			throw new IllegalArgumentException();	
+		else
+			throw new IllegalArgumentException();
+		
+
+		
+		
 	}
 
 	/**
@@ -228,8 +259,26 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		Map<String, Integer> wordCounter= new HashMap<>();
+		
+		string = string.replace(",", " ");
+		string = string.replace("\n", " ");
+		
+		string = string.replace("  ", " ");
+		
+		String[] w = string.split(" ");
+		
+		for(String x : w) {
+			if(!wordCounter.containsKey(x)) {
+				wordCounter.put(x, 1);
+			}
+			else {
+				wordCounter.put(x, wordCounter.get(x)+1);
+			}
+		}
+		
+		return wordCounter;
+		
 	}
 
 	/**
