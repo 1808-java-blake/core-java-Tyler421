@@ -1,5 +1,9 @@
 package com.revature.eval.java.core;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -222,7 +226,7 @@ public class EvaluationService {
 		for (int i = 0; i < string.length(); i++) {
 			try {
 				phoneNumber.add(Integer.parseInt(String.valueOf(string.charAt(i))));
-			} catch (NumberFormatException e ) {
+			} catch (NumberFormatException e) {
 				continue;
 			}
 		}
@@ -237,16 +241,13 @@ public class EvaluationService {
 		for (int i : phoneNumber) {
 			newNumber += String.valueOf(i);
 		}
-		if(newNumber.length() == 10)
+		if (newNumber.length() == 10)
 			return newNumber;
-		if(newNumber.contains("@ || ! || # || $ || [a-z] || [A-Z] "))
-			throw new IllegalArgumentException();	
+		if (newNumber.contains("@ || ! || # || $ || [a-z] || [A-Z] "))
+			throw new IllegalArgumentException();
 		else
 			throw new IllegalArgumentException();
-		
 
-		
-		
 	}
 
 	/**
@@ -259,26 +260,25 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		Map<String, Integer> wordCounter= new HashMap<>();
-		
+		Map<String, Integer> wordCounter = new HashMap<>();
+
 		string = string.replace(",", " ");
 		string = string.replace("\n", " ");
-		
+
 		string = string.replace("  ", " ");
-		
+
 		String[] w = string.split(" ");
-		
-		for(String x : w) {
-			if(!wordCounter.containsKey(x)) {
+
+		for (String x : w) {
+			if (!wordCounter.containsKey(x)) {
 				wordCounter.put(x, 1);
-			}
-			else {
-				wordCounter.put(x, wordCounter.get(x)+1);
+			} else {
+				wordCounter.put(x, wordCounter.get(x) + 1);
 			}
 		}
-		
+
 		return wordCounter;
-		
+
 	}
 
 	/**
@@ -320,22 +320,49 @@ public class EvaluationService {
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
-			// TODO Write an implementation for this method declaration
-			return 0;
-		}
 
-		public BinarySearch(List<T> sortedList) {
+			String[] array1 = new String[this.sortedList.size()];
+			int[] array2 = new int[this.sortedList.size()];
+
+			
+			for (int i = 0; i < this.sortedList.size(); i++) {
+				array1[i] = String.valueOf(this.sortedList.get(i));
+				array2[i] = Integer.valueOf(array1[i]);
+			}
+
+			int high = this.sortedList.size() - 1;
+			int low = 0;
+
+			while (low <= high) {
+				int m = low + (high - low) / 2;
+				int mid = array2[m];
+
+				if (mid == (Integer.valueOf(String.valueOf(t)))) {
+					return m;
+				} else if (mid > (Integer.valueOf(String.valueOf(t)))) {
+					high = m - 1;
+				} else {
+					low = m + 1;
+				}
+
+			}
+
+			return -1;
+		}
+	
+
+	public BinarySearch(List<T> sortedList) {
 			super();
 			this.sortedList = sortedList;
 		}
 
-		public List<T> getSortedList() {
-			return sortedList;
-		}
+	public List<T> getSortedList() {
+		return sortedList;
+	}
 
-		public void setSortedList(List<T> sortedList) {
-			this.sortedList = sortedList;
-		}
+	public void setSortedList(List<T> sortedList) {
+		this.sortedList = sortedList;
+	}
 
 	}
 
@@ -557,9 +584,17 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
-		// TODO Write an implementation for this method declaration
-		return null;
-	}
+	     //In case,time not included
+        if(given instanceof LocalDate) {
+            LocalDateTime time = LocalDateTime.of((LocalDate) given, LocalTime.MIN);
+            return time.plus(Duration.ofSeconds(1000000000l));
+        }
+        //if time is included
+        LocalDateTime time = LocalDateTime.from(given);
+        
+        return time.plus(Duration.ofSeconds(1000000000l));
+}
+	
 
 	/**
 	 * 18. Given a number, find the sum of all the unique multiples of particular
@@ -616,9 +651,20 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isLuhnValid(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
-	}
+        int length = 0, sum = 0;
+        int[] map = {
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+            0, 2, 4, 6, 8, 1, 3, 5, 7, 9
+        };
+        for (int i = string.length() - 1; i >= 0; i--) {
+            char c = string.charAt(i);
+            if (c == ' ') continue;
+            if (c < '0' || c > '9') return false;
+            sum += map[10 * (length++ % 2) + (c - '0')];
+        }
+        return length > 1 && sum % 10 == 0;
+    }
+	
 
 	/**
 	 * 20. Parse and evaluate simple math word problems returning the answer as an
