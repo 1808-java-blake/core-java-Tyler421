@@ -779,6 +779,7 @@ public class EvaluationService {
 				if (j % number == 0) {
 					sum += j;
 					break;
+					
 				}
 			}
 		}
